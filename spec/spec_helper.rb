@@ -7,4 +7,4 @@ Dir["#{File.dirname(__FILE__)}/shared/**/*.rb"].each do |file|
 end
 
 # Require library up front
-require 'sidekiq/field/encryptor'
+require 'sidekiq-field-encryptor/encryptor'

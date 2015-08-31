@@ -3,21 +3,23 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'English'
-require 'sidekiq/field/encryptor/version'
+require 'sidekiq-field-encryptor/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'sidekiq-field-encryptor'
-  spec.version       = Sidekiq::Field::Encryptor::VERSION
+  spec.version       = SidekiqFieldEncryptor::VERSION
   spec.authors       = ['Blake Pettersson']
-  spec.email         = ['blake.pettersson@gmail.com']
-  spec.description   = 'TODO: Write a gem description'
-  spec.summary       = 'TODO: Write a gem summary'
+  spec.email         = ['blake@aptible.com']
+  spec.description   = 'Selectively encrypt fields in Sidekiq'
+  spec.summary       = 'Selectively encrypt fields sent into Sidekiq'
   spec.homepage      = 'https://github.com/aptible/sidekiq-field-encryptor'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($RS)
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ['lib']
+
+  spec.add_dependency 'encryptor'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'aptible-tasks'
