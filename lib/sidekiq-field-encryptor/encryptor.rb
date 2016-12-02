@@ -25,23 +25,24 @@ module SidekiqFieldEncryptor
     def initialize(options = {})
       @encryption_key = options[:encryption_key]
       @encrypted_fields = options[:encrypted_fields] || {}
+      @encryption_algorithm = options[:encryption_algorithm] || 'aes-256-gcm'
     end
 
     def assert_key_configured
-      fail 'Encryption key not configured' if @encryption_key.nil?
+      raise 'Encryption key not configured' if @encryption_key.nil?
     end
 
     def encrypt(value)
       plaintext = Marshal.dump(value)
-      iv = OpenSSL::Cipher::Cipher.new('aes-256-cbc').random_iv
-      args = { key: @encryption_key, iv: iv }
+      iv = OpenSSL::Cipher::Cipher.new(@encryption_algorithm).random_iv
+      args = { key: @encryption_key, iv: iv, algorithm: @encryption_algorithm }
       ciphertext = ::Encryptor.encrypt(plaintext, **args)
       [::Base64.encode64(ciphertext), ::Base64.encode64(iv)]
     end
 
     def decrypt(encrypted)
       ciphertext, iv = encrypted.map { |value| ::Base64.decode64(value) }
-      args = { key: @encryption_key, iv: iv }
+      args = { key: @encryption_key, iv: iv, algorithm: @encryption_algorithm }
       plaintext = ::Encryptor.decrypt(ciphertext, **args)
       Marshal.load(plaintext)
     end

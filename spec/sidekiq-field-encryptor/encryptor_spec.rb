@@ -12,7 +12,8 @@ describe SidekiqFieldEncryptor::Client do
     end
     it 'fails when encryption is attempted' do
       client = SidekiqFieldEncryptor::Client.new(
-        encrypted_fields: { 'FooJob' => { 1 => true } })
+        encrypted_fields: { 'FooJob' => { 1 => true } }
+      )
       expect { client.call('FooJob', message, nil, nil) {} }
         .to raise_error('Encryption key not configured')
     end
@@ -22,9 +23,8 @@ describe SidekiqFieldEncryptor::Client do
     subject do
       SidekiqFieldEncryptor::Client.new(
         encryption_key: key,
-        encrypted_fields: {
-          'FooJob' => { 1 => true, 2 => %w(b d) }
-        })
+        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+      )
     end
 
     it 'encrypts only fields specified by the encryption config' do
@@ -34,6 +34,28 @@ describe SidekiqFieldEncryptor::Client do
       expect(message['args'][2]['a']).to eq('A')
       expect(subject.decrypt(message['args'][2]['b'])).to eq('B')
     end
+  end
+
+  it 'supports setting the encryption algorithm' do
+    key = OpenSSL::Cipher::Cipher.new('aes-128-cbc').random_key
+    fields = { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+
+    ko = SidekiqFieldEncryptor::Client.new(
+      encryption_key: key,
+      encryption_algorithm: 'aes-256-cbc',
+      encrypted_fields: fields
+    )
+
+    ok = SidekiqFieldEncryptor::Client.new(
+      encryption_key: key,
+      encryption_algorithm: 'aes-128-cbc',
+      encrypted_fields: fields
+    )
+
+    expect { ko.call('FooJob', message, nil, nil) {} }
+      .to raise_error(/must be 32 bytes or longer/)
+
+    ok.call('FooJob', message, nil, nil) {}
   end
 end
 
@@ -49,7 +71,8 @@ describe SidekiqFieldEncryptor::Server do
     end
     it 'fails when decryption is attempted' do
       server = SidekiqFieldEncryptor::Server.new(
-        encrypted_fields: { 'FooJob' => { 1 => true } })
+        encrypted_fields: { 'FooJob' => { 1 => true } }
+      )
       expect { server.call('FooJob', message, nil) {} }
         .to raise_error('Encryption key not configured')
     end
@@ -59,9 +82,8 @@ describe SidekiqFieldEncryptor::Server do
     subject do
       SidekiqFieldEncryptor::Server.new(
         encryption_key: key,
-        encrypted_fields: {
-          'FooJob' => { 1 => true, 2 => %w(b d) }
-        })
+        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+      )
     end
 
     it 'decrypts all fields specified by the encryption config' do
@@ -70,6 +92,30 @@ describe SidekiqFieldEncryptor::Server do
       message['args'][2]['b'] = subject.encrypt(message['args'][2]['b'])
       subject.call('FooJob', message, nil) {}
       expect(message).to eq(original_message)
+    end
+
+    it 'supports setting the encryption algorithm' do
+      key = OpenSSL::Cipher::Cipher.new('aes-128-cbc').random_key
+      fields = { 'FooJob' => { 1 => true } }
+
+      ko = SidekiqFieldEncryptor::Server.new(
+        encryption_key: key,
+        encryption_algorithm: 'aes-256-cbc',
+        encrypted_fields: fields
+      )
+
+      ok = SidekiqFieldEncryptor::Server.new(
+        encryption_key: key,
+        encryption_algorithm: 'aes-128-cbc',
+        encrypted_fields: fields
+      )
+
+      message['args'][1] = ok.encrypt(message['args'][1])
+
+      expect { ko.call('FooJob', message, nil) {} }
+        .to raise_error(/key must be 32 bytes or longer/)
+
+      ok.call('FooJob', message, nil) {}
     end
   end
 end
