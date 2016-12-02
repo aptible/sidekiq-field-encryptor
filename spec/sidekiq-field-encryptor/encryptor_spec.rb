@@ -12,7 +12,8 @@ describe SidekiqFieldEncryptor::Client do
     end
     it 'fails when encryption is attempted' do
       client = SidekiqFieldEncryptor::Client.new(
-        encrypted_fields: { 'FooJob' => { 1 => true } })
+        encrypted_fields: { 'FooJob' => { 1 => true } }
+      )
       expect { client.call('FooJob', message, nil, nil) {} }
         .to raise_error('Encryption key not configured')
     end
@@ -22,9 +23,8 @@ describe SidekiqFieldEncryptor::Client do
     subject do
       SidekiqFieldEncryptor::Client.new(
         encryption_key: key,
-        encrypted_fields: {
-          'FooJob' => { 1 => true, 2 => %w(b d) }
-        })
+        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+      )
     end
 
     it 'encrypts only fields specified by the encryption config' do
@@ -71,7 +71,8 @@ describe SidekiqFieldEncryptor::Server do
     end
     it 'fails when decryption is attempted' do
       server = SidekiqFieldEncryptor::Server.new(
-        encrypted_fields: { 'FooJob' => { 1 => true } })
+        encrypted_fields: { 'FooJob' => { 1 => true } }
+      )
       expect { server.call('FooJob', message, nil) {} }
         .to raise_error('Encryption key not configured')
     end
@@ -81,9 +82,8 @@ describe SidekiqFieldEncryptor::Server do
     subject do
       SidekiqFieldEncryptor::Server.new(
         encryption_key: key,
-        encrypted_fields: {
-          'FooJob' => { 1 => true, 2 => %w(b d) }
-        })
+        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+      )
     end
 
     it 'decrypts all fields specified by the encryption config' do

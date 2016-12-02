@@ -29,7 +29,7 @@ module SidekiqFieldEncryptor
     end
 
     def assert_key_configured
-      fail 'Encryption key not configured' if @encryption_key.nil?
+      raise 'Encryption key not configured' if @encryption_key.nil?
     end
 
     def encrypt(value)
