@@ -117,5 +117,41 @@ describe SidekiqFieldEncryptor::Server do
 
       ok.call('FooJob', message, nil) {}
     end
+
+    it 'fails if the serialization methods are different' do
+      r = SidekiqFieldEncryptor::Server.new(
+        encryption_key: key,
+        encrypted_fields: { 'FooJob' => { 1 => true } },
+        serialization_method: SidekiqFieldEncryptor::SERIALIZE_JSON
+      )
+
+      e = SidekiqFieldEncryptor::Client.new(
+        encryption_key: key,
+        encrypted_fields: { 'FooJob' => { 1 => true } },
+        serialization_method: SidekiqFieldEncryptor::SERIALIZE_MARHSALL
+      )
+
+      message['args'][1] = e.encrypt(message['args'][1])
+      expect { r.call('FooJob', message, nil) {} }
+        .to raise_error(/invalid serialization_method/i)
+    end
+
+    it 'allows compat serialization' do
+      r = SidekiqFieldEncryptor::Server.new(
+        encryption_key: key,
+        encrypted_fields: { 'FooJob' => { 1 => true } },
+        serialization_method: SidekiqFieldEncryptor::SERIALIZE_JSON,
+        serialization_compat: true
+      )
+
+      e = SidekiqFieldEncryptor::Client.new(
+        encryption_key: key,
+        encrypted_fields: { 'FooJob' => { 1 => true } },
+        serialization_method: SidekiqFieldEncryptor::SERIALIZE_MARHSALL
+      )
+
+      message['args'][1] = e.encrypt(message['args'][1])
+      r.call('FooJob', message, nil) {}
+    end
   end
 end
