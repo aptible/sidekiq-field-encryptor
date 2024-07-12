@@ -60,7 +60,7 @@ module SidekiqFieldEncryptor
         JSON.parse(value, quirks_mode: true)
       when SERIALIZE_MARHSALL, nil
         # No method used to be Marshall, so we respect this here
-        Marshal.load(value)
+        Marshal.load(value) # rubocop:disable Security/MarshalLoad
       else
         raise "Invalid serialization_method: #{@serialization_method}"
       end
@@ -90,10 +90,12 @@ module SidekiqFieldEncryptor
     def process_message(message)
       fields = @encrypted_fields[message['class']]
       return unless fields
+
       assert_key_configured
       message['args'].size.times.each do |arg_index|
         to_encrypt = fields[arg_index]
         next unless to_encrypt
+
         raw_value = message['args'][arg_index]
         if to_encrypt == true
           message['args'][arg_index] = yield(raw_value)

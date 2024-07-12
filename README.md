@@ -1,7 +1,6 @@
 # ![](https://raw.github.com/aptible/straptible/master/lib/straptible/rails/templates/public.api/icon-60px.png) Sidekiq::Field::Encryptor
 
 [![Gem Version](https://badge.fury.io/rb/sidekiq-field-encryptor.png)](https://rubygems.org/gems/sidekiq-field-encryptor)
-[![Build Status](https://travis-ci.org/aptible/sidekiq-field-encryptor.png?branch=master)](https://travis-ci.org/aptible/sidekiq-field-encryptor)
 [![Dependency Status](https://gemnasium.com/aptible/sidekiq-field-encryptor.png)](https://gemnasium.com/aptible/sidekiq-field-encryptor)
 
 This is a utility which is intended to be used for encrypting sensitive data in Sidekiq jobs. The data is encrypted before sending it to Redis, and decrypted right before the Sidekiq job is executed.

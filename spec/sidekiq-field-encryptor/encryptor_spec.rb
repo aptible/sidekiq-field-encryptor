@@ -23,7 +23,7 @@ describe SidekiqFieldEncryptor::Client do
     subject do
       SidekiqFieldEncryptor::Client.new(
         encryption_key: key,
-        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w[b d] } }
       )
     end
 
@@ -38,7 +38,7 @@ describe SidekiqFieldEncryptor::Client do
 
   it 'supports setting the encryption algorithm' do
     key = OpenSSL::Cipher::Cipher.new('aes-128-cbc').random_key
-    fields = { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+    fields = { 'FooJob' => { 1 => true, 2 => %w[b d] } }
 
     ko = SidekiqFieldEncryptor::Client.new(
       encryption_key: key,
@@ -82,7 +82,7 @@ describe SidekiqFieldEncryptor::Server do
     subject do
       SidekiqFieldEncryptor::Server.new(
         encryption_key: key,
-        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w(b d) } }
+        encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w[b d] } }
       )
     end
 
