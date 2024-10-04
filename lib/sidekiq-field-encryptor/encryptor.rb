@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'base64'
 require 'encryptor'
 require 'json'
@@ -22,9 +24,10 @@ require 'sidekiq-field-encryptor/version'
 # Will encrypt the values {'x' => 1} and 'b' when storing the job in Redis and
 # decrypt the values inside the client before the job is executed.
 module SidekiqFieldEncryptor
-  SERIALIZE_JSON = 'json'.freeze
-  SERIALIZE_MARHSALL = 'marshal'.freeze
+  SERIALIZE_JSON = 'json'
+  SERIALIZE_MARHSALL = 'marshal'
 
+  # Shared methods between client and base
   class Base
     def initialize(options = {})
       @encryption_key = options[:encryption_key]
@@ -68,7 +71,7 @@ module SidekiqFieldEncryptor
 
     def encrypt(value)
       plaintext = serialize(value)
-      iv = OpenSSL::Cipher::Cipher.new(@encryption_algorithm).random_iv
+      iv = OpenSSL::Cipher.new(@encryption_algorithm).random_iv
       args = { key: @encryption_key, iv: iv, algorithm: @encryption_algorithm }
       ciphertext = ::Encryptor.encrypt(plaintext, **args)
       [
@@ -100,15 +103,16 @@ module SidekiqFieldEncryptor
         if to_encrypt == true
           message['args'][arg_index] = yield(raw_value)
         elsif to_encrypt.is_a?(Array) && raw_value.is_a?(Hash)
-          message['args'][arg_index] = Hash[raw_value.map do |key, value|
+          message['args'][arg_index] = raw_value.to_h do |key, value|
             value = yield(value) if to_encrypt.member?(key.to_s)
             [key, value]
-          end]
+          end
         end
       end
     end
   end
 
+  # Used when encrypting fields
   class Client < Base
     def call(_, message, _, _)
       process_message(message) { |value| encrypt(value) }
@@ -116,6 +120,7 @@ module SidekiqFieldEncryptor
     end
   end
 
+  # Used when decrypting fields
   class Server < Base
     def call(_, message, _)
       process_message(message) { |value| decrypt(value) }

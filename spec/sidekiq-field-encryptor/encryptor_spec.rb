@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe SidekiqFieldEncryptor::Client do
-  let(:key) { OpenSSL::Cipher::Cipher.new('aes-256-cbc').random_key }
+  let(:key) { OpenSSL::Cipher.new('aes-256-cbc').random_key }
   let(:message) do
     { 'class' => 'FooJob', 'args' => [1, 2, { 'a' => 'A', 'b' => 'B' }] }
   end
@@ -10,8 +12,9 @@ describe SidekiqFieldEncryptor::Client do
     it "doesn't fail when encryption isn't attempted" do
       subject.call('FooJob', message, nil, nil) {}
     end
+
     it 'fails when encryption is attempted' do
-      client = SidekiqFieldEncryptor::Client.new(
+      client = described_class.new(
         encrypted_fields: { 'FooJob' => { 1 => true } }
       )
       expect { client.call('FooJob', message, nil, nil) {} }
@@ -21,7 +24,7 @@ describe SidekiqFieldEncryptor::Client do
 
   describe 'with an encryption key' do
     subject do
-      SidekiqFieldEncryptor::Client.new(
+      described_class.new(
         encryption_key: key,
         encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w[b d] } }
       )
@@ -37,16 +40,16 @@ describe SidekiqFieldEncryptor::Client do
   end
 
   it 'supports setting the encryption algorithm' do
-    key = OpenSSL::Cipher::Cipher.new('aes-128-cbc').random_key
+    key = OpenSSL::Cipher.new('aes-128-cbc').random_key
     fields = { 'FooJob' => { 1 => true, 2 => %w[b d] } }
 
-    ko = SidekiqFieldEncryptor::Client.new(
+    ko = described_class.new(
       encryption_key: key,
       encryption_algorithm: 'aes-256-cbc',
       encrypted_fields: fields
     )
 
-    ok = SidekiqFieldEncryptor::Client.new(
+    ok = described_class.new(
       encryption_key: key,
       encryption_algorithm: 'aes-128-cbc',
       encrypted_fields: fields
@@ -60,7 +63,7 @@ describe SidekiqFieldEncryptor::Client do
 end
 
 describe SidekiqFieldEncryptor::Server do
-  let(:key) { OpenSSL::Cipher::Cipher.new('aes-256-cbc').random_key }
+  let(:key) { OpenSSL::Cipher.new('aes-256-cbc').random_key }
   let(:message) do
     { 'class' => 'FooJob', 'args' => [1, 2, { 'a' => 'A', 'b' => 'B' }] }
   end
@@ -69,8 +72,9 @@ describe SidekiqFieldEncryptor::Server do
     it "doesn't fail when decryption isn't attempted" do
       subject.call('FooJob', message, nil) {}
     end
+
     it 'fails when decryption is attempted' do
-      server = SidekiqFieldEncryptor::Server.new(
+      server = described_class.new(
         encrypted_fields: { 'FooJob' => { 1 => true } }
       )
       expect { server.call('FooJob', message, nil) {} }
@@ -80,7 +84,7 @@ describe SidekiqFieldEncryptor::Server do
 
   describe 'with an encryption key' do
     subject do
-      SidekiqFieldEncryptor::Server.new(
+      described_class.new(
         encryption_key: key,
         encrypted_fields: { 'FooJob' => { 1 => true, 2 => %w[b d] } }
       )
@@ -95,16 +99,16 @@ describe SidekiqFieldEncryptor::Server do
     end
 
     it 'supports setting the encryption algorithm' do
-      key = OpenSSL::Cipher::Cipher.new('aes-128-cbc').random_key
+      key = OpenSSL::Cipher.new('aes-128-cbc').random_key
       fields = { 'FooJob' => { 1 => true } }
 
-      ko = SidekiqFieldEncryptor::Server.new(
+      ko = described_class.new(
         encryption_key: key,
         encryption_algorithm: 'aes-256-cbc',
         encrypted_fields: fields
       )
 
-      ok = SidekiqFieldEncryptor::Server.new(
+      ok = described_class.new(
         encryption_key: key,
         encryption_algorithm: 'aes-128-cbc',
         encrypted_fields: fields
@@ -119,7 +123,7 @@ describe SidekiqFieldEncryptor::Server do
     end
 
     it 'fails if the serialization methods are different' do
-      r = SidekiqFieldEncryptor::Server.new(
+      r = described_class.new(
         encryption_key: key,
         encrypted_fields: { 'FooJob' => { 1 => true } },
         serialization_method: SidekiqFieldEncryptor::SERIALIZE_JSON
@@ -137,7 +141,7 @@ describe SidekiqFieldEncryptor::Server do
     end
 
     it 'allows compat serialization' do
-      r = SidekiqFieldEncryptor::Server.new(
+      r = described_class.new(
         encryption_key: key,
         encrypted_fields: { 'FooJob' => { 1 => true } },
         serialization_method: SidekiqFieldEncryptor::SERIALIZE_JSON,

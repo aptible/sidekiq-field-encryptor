@@ -38,11 +38,11 @@ decrypt the values inside the client before the job is executed.
 
 1. Fork the project.
 1. Commit your changes, with specs.
-1. Ensure that your code passes specs (`rake spec`) and meets Aptible's Ruby style guide (`rake rubocop`).
+1. Ensure that your code passes specs (`bundle exec rspec`) and meets Aptible's Ruby style guide (`bundle exec rubocop`).
 1. Create a new pull request on GitHub.
 
 ## Copyright and License
 
 MIT License, see [LICENSE](LICENSE.md) for details.
 
-Copyright (c) 2019 [Aptible](https://www.aptible.com), Blake Pettersson, and contributors.
+Copyright (c) 2024 [Aptible](https://www.aptible.com), Blake Pettersson, and contributors.

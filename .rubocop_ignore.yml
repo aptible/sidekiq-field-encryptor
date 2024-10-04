@@ -1,0 +1,11 @@
+Naming/FileName:
+  Exclude:
+    - 'lib/sidekiq-field-encryptor.rb'
+
+RSpec/MultipleDescribes:
+  Exclude:
+    - 'spec/sidekiq-field-encryptor/encryptor_spec.rb'
+
+Gemspec/RequiredRubyVersion:
+  Exclude:
+    - 'sidekiq-field-encryptor.gemspec'

@@ -1,0 +1,16 @@
+inherit_from:
+  - https://raw.githubusercontent.com/aptible/dryer-lint/main/.rubocop.base.yml
+  - .rubocop_ignore.yml
+
+Style/GuardClause:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: disable
+  Include:
+    - !ruby/regexp /\.rb$/
+    - !ruby/regexp /Gemfile$/
+    - !ruby/regexp /\.gemspec$/
+    - !ruby/regexp /\.rake$/
+    - !ruby/regexp /Rakefile$/
