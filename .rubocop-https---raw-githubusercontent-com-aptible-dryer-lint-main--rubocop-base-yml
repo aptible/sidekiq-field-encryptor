@@ -1,0 +1,353 @@
+require:
+  - rubocop-rspec
+
+Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+
+Gemspec/RequireMFA:
+  Enabled: true
+
+Layout/LineContinuationLeadingSpace:
+  Enabled: true
+
+Layout/LineContinuationSpacing:
+  Enabled: true
+
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+Lint/AmbiguousAssignment:
+  Enabled: true
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+
+Lint/AmbiguousRange:
+  Enabled: true
+
+Lint/ConstantOverwrittenInRescue:
+  Enabled: true
+
+Lint/DeprecatedConstants:
+  Enabled: true
+
+Lint/DuplicateBranch:
+  Enabled: true
+
+Lint/DuplicateMagicComment:
+  Enabled: true
+
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+
+Lint/EmptyBlock:
+  Enabled: false
+
+Lint/EmptyClass:
+  Enabled: true
+
+Lint/EmptyInPattern:
+  Enabled: true
+
+Lint/IncompatibleIoSelectWithFiberScheduler:
+  Enabled: true
+
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+
+Lint/NonAtomicFileOperation:
+  Enabled: true
+
+Lint/NumberedParameterAssignment:
+  Enabled: true
+
+Lint/OrAssignmentToConstant:
+  Enabled: true
+
+Lint/RedundantDirGlobSort:
+  Enabled: true
+
+Lint/RefinementImportMethods:
+  Enabled: true
+
+Lint/RequireRangeParentheses:
+  Enabled: true
+
+Lint/RequireRelativeSelfPath:
+  Enabled: true
+
+Lint/SymbolConversion:
+  Enabled: true
+
+Lint/ToEnumArguments:
+  Enabled: true
+
+Lint/TripleQuotes:
+  Enabled: true
+
+Lint/UnexpectedBlockArity:
+  Enabled: true
+
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Lint/UselessRuby2Keywords:
+  Enabled: true
+
+Security/CompoundHash:
+  Enabled: true
+
+Security/IoMethods:
+  Enabled: true
+
+Style/ArgumentsForwarding:
+  Enabled: true
+
+Style/CollectionCompact:
+  Enabled: true
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+
+Style/EmptyHeredoc:
+  Enabled: true
+
+Style/EndlessMethod:
+  Enabled: true
+
+Style/EnvHome:
+  Enabled: true
+
+Style/FetchEnvVar:
+  Enabled: true
+
+Style/FileRead:
+  Enabled: true
+
+Style/FileWrite:
+  Enabled: true
+
+# TODO - remove this when this has been released on rubocop
+Style/GuardClause:
+  Enabled: false
+
+Style/HashConversion:
+  Enabled: true
+
+Style/HashExcept:
+  Enabled: true
+
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+
+Style/InPatternThen:
+  Enabled: true
+
+Style/MagicCommentFormat:
+  Enabled: true
+
+Style/MapCompactWithConditionalBlock:
+  Enabled: true
+
+Style/MapToHash:
+  Enabled: true
+
+Style/MultilineInPatternThen:
+  Enabled: true
+
+Style/NegatedIfElseCondition:
+  Enabled: true
+
+Style/NestedFileDirname:
+  Enabled: true
+
+Style/NilLambda:
+  Enabled: true
+
+Style/NumberedParameters:
+  Enabled: true
+
+Style/NumberedParametersLimit:
+  Enabled: true
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/ObjectThen:
+  Enabled: true
+
+Style/OpenStructUse:
+  Enabled: true
+
+Style/OperatorMethodCall:
+  Enabled: true
+
+Style/QuotedSymbols:
+  Enabled: true
+
+Style/RedundantArgument:
+  Enabled: true
+
+Style/RedundantEach:
+  Enabled: true
+
+Style/RedundantInitialize:
+  Enabled: true
+
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
+
+Style/RedundantStringEscape:
+  Enabled: true
+
+Style/SelectByRegexp:
+  Enabled: true
+
+Style/StringChars:
+  Enabled: true
+
+Style/SwapValues:
+  Enabled: true
+
+RSpec/BeEq:
+  Enabled: true
+
+RSpec/BeNil:
+  Enabled: true
+
+RSpec/ChangeByZero:
+  Enabled: true
+
+RSpec/ClassCheck:
+  Enabled: true
+
+RSpec/ExcessiveDocstringSpacing:
+  Enabled: true
+
+RSpec/IdenticalEqualityAssertion:
+  Enabled: true
+
+RSpec/SortMetadata:
+  Enabled: true
+
+RSpec/SubjectDeclaration:
+  Enabled: true
+
+RSpec/StubbedMock:
+  Enabled: false
+
+RSpec/VerifiedDoubleReference:
+  Enabled: true
+
+###############################################################################
+##                           Customizations                                  ##
+###############################################################################
+
+# Try to keep a balance between the fact that some people are
+# working from laptops and the fact that unnecessarily short
+# lines make code hard to read.
+Layout/LineLength:
+  Enabled: true
+  Max: 120
+
+# TODO: We have enough places where this isn't used that it would
+#       be hard to switch, but maybe we should enable in the future?
+RSpec/NamedSubject:
+  Enabled: false
+
+# Sometimes our tests are only confirming that
+# an exception isn't raised.
+RSpec/NoExpectationExample:
+  Enabled: false
+
+# These sometimes make tests look nicer.
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/RepeatedExampleGroupBody:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 20
+
+RSpec/SubjectStub:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+# These aren't effective enough at calculating the right
+# kinds of complexity.
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# Favor explicit over implicit.
+Metrics/ParameterLists:
+  Max: 20
+
+Style/HashSyntax:
+  Enabled: false
+
+Naming/BlockForwarding:
+  Enabled: true
+  EnforcedStyle: explicit
+
+# This probably isn't right to disable, but at the same time, there
+# are places where we're using (valid) boilerplate code that adds up.
+Metrics/MethodLength:
+  Enabled: false
+
+# This probably isn't best to change either, but some modules and corresponding
+# helpers will have a fair number of lines and this seems arbitrarily limiting
+Metrics/ModuleLength:
+  Enabled: false
+
+# We may want to re-enable this in the future with a reasonable value,
+# but right now this is overly prescriptive, especially in scenarios
+# where we have a lot of boilerplate code.
+Metrics/ClassLength:
+  Enabled: false
+
+# This is fine being a judgement call.
+Metrics/BlockLength:
+  Enabled: false
+
+# This is overly prescriptive with minimal gain.
+RSpec/ContextWording:
+  Enabled: false
+
+# This is allowing something implicit, which isn't ideal,
+# but it's also something we heavily leverage.
+RSpec/LetSetup:
+  Enabled: false
+
+# This doesn't feel great to add, but unfortunately it's making
+# incorrect assumptions about some of our function names
+# which causes a lot of false positives.
+RSpec/PredicateMatcher:
+  Enabled: false
+
+# There are valid reasons to do this.
+RSpec/InstanceVariable:
+  Enabled: false

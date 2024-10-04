@@ -1,4 +1,3 @@
-require 'bundler/gem_tasks'
+# frozen_string_literal: true
 
-require 'aptible/tasks'
-Aptible::Tasks.load_tasks
+require 'bundler/gem_tasks'

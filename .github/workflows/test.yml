@@ -13,11 +13,11 @@ on:
 jobs:
   test:
     name: Test Ruby ${{ matrix.RUBY_VERSION }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        RUBY_VERSION: ["2.2", "2.6"]
+        RUBY_VERSION: ["2.6", "3.3"]
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -28,8 +28,11 @@ jobs:
           ruby-version: ${{ matrix.RUBY_VERSION }}
           bundler-cache: true
 
+      - name: Run Lint
+        run: bundle exec rubocop
+
       - name: Run Tests
-        run: bundle exec rake
+        run: bundle exec rspec
 
   results:
     if: ${{ always() }}
