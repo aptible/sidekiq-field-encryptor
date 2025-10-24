@@ -20,10 +20,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'encryptor'
+  spec.add_dependency 'sidekiq'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 3.12'
-  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'rubocop', '< 1.78'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.16.0'
   spec.metadata['rubygems_mfa_required'] = 'true'
 end

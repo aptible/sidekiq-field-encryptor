@@ -3,6 +3,7 @@
 require 'base64'
 require 'encryptor'
 require 'json'
+require 'sidekiq'
 require 'sidekiq-field-encryptor/version'
 
 # This middleware configures encryption of any fields that can contain sensitive
@@ -114,6 +115,7 @@ module SidekiqFieldEncryptor
 
   # Used when encrypting fields
   class Client < Base
+    include Sidekiq::ClientMiddleware
     def call(_, message, _, _)
       process_message(message) { |value| encrypt(value) }
       yield
@@ -122,6 +124,7 @@ module SidekiqFieldEncryptor
 
   # Used when decrypting fields
   class Server < Base
+    include Sidekiq::ServerMiddleware
     def call(_, message, _)
       process_message(message) { |value| decrypt(value) }
       yield

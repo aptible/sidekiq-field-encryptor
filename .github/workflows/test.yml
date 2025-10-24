@@ -29,10 +29,10 @@ jobs:
           bundler-cache: true
 
       - name: Run Lint
-        run: bundle exec rubocop
+        run: make lint
 
       - name: Run Tests
-        run: bundle exec rspec
+        run: make test
 
   results:
     if: ${{ always() }}
