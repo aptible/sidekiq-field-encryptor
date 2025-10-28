@@ -89,6 +89,8 @@ module SidekiqFieldEncryptor
       args = { key: @encryption_key, iv: iv, algorithm: @encryption_algorithm }
       plaintext = ::Encryptor.decrypt(ciphertext, **args)
       deserialize(serialization_method, plaintext)
+    rescue OpenSSL::Cipher::CipherError
+      raise 'Could not decrypt - is the encryption key correct?'
     end
 
     def process_message(message)
