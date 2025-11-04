@@ -245,6 +245,33 @@ RSpec/StubbedMock:
 RSpec/VerifiedDoubleReference:
   Enabled: true
 
+Capybara/NegationMatcher:
+  Enabled: true
+
+Capybara/SpecificActions:
+  Enabled: true
+
+Capybara/SpecificFinders:
+  Enabled: true
+
+Capybara/SpecificMatcher:
+  Enabled: true
+
+FactoryBot/ConsistentParenthesesStyle:
+  Enabled: true
+
+FactoryBot/SyntaxMethods:
+  Enabled: true
+
+RSpecRails/AvoidSetupHook:
+  Enabled: true
+
+RSpecRails/HaveHttpStatus:
+  Enabled: true
+
+RSpecRails/InferredSpecType:
+  Enabled: true
+
 ###############################################################################
 ##                           Customizations                                  ##
 ###############################################################################
